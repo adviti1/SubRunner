@@ -4,38 +4,31 @@ using UnityEngine;
 
 public class CharMovement : MonoBehaviour
 {
-   
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
+    public float moveSpeed = 3f;
+    private bool isMoving = false;
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey("left"))
+        transform.Translate(Vector3.forward * Time.deltaTime * moveSpeed, Space.World);
+
+        if (Input.touchCount > 0)
         {
-            transform.Rotate(0, 5, 0);
-        }
-        if (Input.GetKey("right"))
-        {
-            transform.Rotate(0, -5, 0);
+            Touch touch = Input.GetTouch(0);
+            if (touch.phase == TouchPhase.Began)
+            {
+                isMoving = true;
+            }
+            else if (touch.phase == TouchPhase.Ended)
+            {
+                isMoving = false;
+            }
         }
 
-        if (Input.GetKey("left"))
+        if (isMoving)
         {
-            if (Input.GetKeyUp("left"))
-            {
-                transform.Rotate(0, 10, 0);
-            }
-        }
-        if (Input.GetKey("right"))
-        {
-            if (Input.GetKeyUp("right"))
-            {
-                transform.Rotate(0, -10, 0);
-            }
+            float translation = moveSpeed * Time.deltaTime;
+            transform.Translate(Vector3.right * translation);
         }
     }
 }
