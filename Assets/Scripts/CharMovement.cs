@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CharMovement : MonoBehaviour
 {
-    public float moveSpeed = 3f;
-    private bool isMoving = false;
+    public float moveSpeed = 0.05f;
+    private Touch touch;
 
     // Update is called once per frame
     void Update()
@@ -14,21 +14,12 @@ public class CharMovement : MonoBehaviour
 
         if (Input.touchCount > 0)
         {
-            Touch touch = Input.GetTouch(0);
-            if (touch.phase == TouchPhase.Began)
-            {
-                isMoving = true;
-            }
-            else if (touch.phase == TouchPhase.Ended)
-            {
-                isMoving = false;
-            }
-        }
+            touch = Input.GetTouch(0);
 
-        if (isMoving)
-        {
-            float translation = moveSpeed * Time.deltaTime;
-            transform.Translate(Vector3.right * translation);
+            if (touch.phase == TouchPhase.Moved)
+            {
+                transform.position = new Vector3(transform.position.x + touch.deltaPosition.x * moveSpeed, transform.position.y, transform.position.z);
+            }
         }
     }
 }
