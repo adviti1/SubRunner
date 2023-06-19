@@ -9,6 +9,13 @@ public class CharMovement : MonoBehaviour
     public float forwardSpeed;
 
     public float laneDistance = 4;
+    private int desiredLane = 1;
+
+
+    public GameObject Player;
+    private Vector2 startTouchPosition;
+    private Vector2 endTouchPosition;
+
 
     void Start()
     {
@@ -17,39 +24,45 @@ public class CharMovement : MonoBehaviour
 
     void Update()
     {
-        int desiredLane = 1; // Move the declaration here
-
         direction.z = forwardSpeed;
-
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
-            desiredLane++;
-            if (desiredLane == 3)
-                desiredLane = 2;
+            startTouchPosition = Input.GetTouch(0).position;
         }
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
         {
-            desiredLane--;
-            if (desiredLane == -1)
-                desiredLane = 0;
+            endTouchPosition = Input.GetTouch(0).position;
+            if (endTouchPosition.x > startTouchPosition.x)
+            {
+                desiredLane++;
+                if (desiredLane == 3)
+                    desiredLane = 2;
+            }
+            if (endTouchPosition.x < startTouchPosition.x)
+            {
+                desiredLane--;
+                if (desiredLane == -1)
+                    desiredLane = 0;
+            }
+
+            Vector3 targetPosition = transform.position;
+
+
+            if (desiredLane == 0)
+            {
+                targetPosition += Vector3.left * laneDistance;
+            }
+            else if (desiredLane == 2)
+            {
+                targetPosition += Vector3.right * laneDistance;
+            }
+
+            transform.position = Vector3.Lerp(transform.position, targetPosition, 80 * TimedeltaTime);
         }
 
-        Vector3 targetPosition = transform.position.z * transform.forward + transform.position.y * transform.up;
-
-        if (desiredLane == 0)
+         void FixedUpdate()
         {
-            targetPosition += Vector3.left * laneDistance;
+            controller.Move(direction * Time.deltaTime);
         }
-        else if (desiredLane == 2)
-        {
-            targetPosition += Vector3.right * laneDistance;
-        }
-
-        transform.position = targetPosition;
-    }
-
-    private void FixedUpdate()
-    {
-        controller.Move(direction * Time.deltaTime);
     }
 }
