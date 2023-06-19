@@ -4,22 +4,52 @@ using UnityEngine;
 
 public class CharMovement : MonoBehaviour
 {
-    public float moveSpeed = 0.05f;
-    private Touch touch;
+    private CharacterController controller;
+    private Vector3 direction;
+    public float forwardSpeed;
 
-    // Update is called once per frame
+    public float laneDistance = 4;
+
+    void Start()
+    {
+        controller = GetComponent<CharacterController>();
+    }
+
     void Update()
     {
-        transform.Translate(Vector3.forward * Time.deltaTime * moveSpeed, Space.World);
+        int desiredLane = 1; // Move the declaration here
 
-        if (Input.touchCount > 0)
+        direction.z = forwardSpeed;
+
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            touch = Input.GetTouch(0);
-
-            if (touch.phase == TouchPhase.Moved)
-            {
-                transform.position = new Vector3(transform.position.x + touch.deltaPosition.x * moveSpeed, transform.position.y, transform.position.z);
-            }
+            desiredLane++;
+            if (desiredLane == 3)
+                desiredLane = 2;
         }
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            desiredLane--;
+            if (desiredLane == -1)
+                desiredLane = 0;
+        }
+
+        Vector3 targetPosition = transform.position.z * transform.forward + transform.position.y * transform.up;
+
+        if (desiredLane == 0)
+        {
+            targetPosition += Vector3.left * laneDistance;
+        }
+        else if (desiredLane == 2)
+        {
+            targetPosition += Vector3.right * laneDistance;
+        }
+
+        transform.position = targetPosition;
+    }
+
+    private void FixedUpdate()
+    {
+        controller.Move(direction * Time.deltaTime);
     }
 }
