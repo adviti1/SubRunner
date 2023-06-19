@@ -56,13 +56,14 @@ public class CharMovement : MonoBehaviour
             {
                 targetPosition += Vector3.right * laneDistance;
             }
-
-            transform.position = Vector3.Lerp(transform.position, targetPosition, 80 * TimedeltaTime);
+           
+            //transform.position = Vector3.Lerp(transform.position, targetPosition, 80 * Time.deltaTime);
         }
 
-         void FixedUpdate()
+        void FixedUpdate()
         {
-            controller.Move(direction * Time.deltaTime);
+            transform.Translate(Vector3.forward * Time.deltaTime * forwardSpeed, Space.World);
+           // controller.Move(direction * Time.deltaTime);
         }
     }
 }
