@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class trainmove : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public float speed = 5f; // Adjust this value to control the speed
 
-    // Update is called once per frame
-    void Update()
+    private void OnCollisionEnter(Collision collision)
     {
-        
+        if (collision.gameObject.CompareTag("Collider"))
+        {
+            Rigidbody rb = GetComponent<Rigidbody>();
+
+            // Calculate the movement vector in the negative Z direction
+            Vector3 movement = -transform.forward * speed * Time.deltaTime;
+
+            // Apply the movement to the object's position
+            rb.MovePosition(rb.position + movement);
+        }
     }
 }

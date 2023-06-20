@@ -61,4 +61,12 @@ public class CharMovement : MonoBehaviour
             }
         }   
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("obs") || collision.gameObject.CompareTag("collider"))
+        {
+            // Destroy the player object
+            Destroy(gameObject);
+        }
+    }
 }
