@@ -31,11 +31,11 @@ public class Swipe : MonoBehaviour
 
     private void Right()
     {
-        Player.transform.position = new Vector3(Player.transform.position.x + 1, Player.transform.position.y, Player.transform.position.z);
+        Player.transform.position = new Vector3(Player.transform.position.x + 8, Player.transform.position.y, Player.transform.position.z);
     }
 
     private void Left()
     {
-        Player.transform.position = new Vector3(Player.transform.position.x - 1, Player.transform.position.y, Player.transform.position.z);
+        Player.transform.position = new Vector3(Player.transform.position.x - 8, Player.transform.position.y, Player.transform.position.z);
     }
 }
