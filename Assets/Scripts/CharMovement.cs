@@ -25,6 +25,9 @@ public class CharMovement : MonoBehaviour
     void Update()
     {
         direction.z = forwardSpeed;
+        transform.Translate(Vector3.forward * Time.deltaTime * forwardSpeed, Space.World);
+    
+    
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
             startTouchPosition = Input.GetTouch(0).position;
@@ -56,14 +59,6 @@ public class CharMovement : MonoBehaviour
             {
                 targetPosition += Vector3.right * laneDistance;
             }
-           
-            //transform.position = Vector3.Lerp(transform.position, targetPosition, 80 * Time.deltaTime);
-        }
-
-        void FixedUpdate()
-        {
-            transform.Translate(Vector3.forward * Time.deltaTime * forwardSpeed, Space.World);
-           // controller.Move(direction * Time.deltaTime);
-        }
+        }   
     }
 }
