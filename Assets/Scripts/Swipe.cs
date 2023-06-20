@@ -26,6 +26,10 @@ public class Swipe : MonoBehaviour
             {
                 Right();
             }
+            if (endTouchPosition.y > startTouchPosition.y)
+            {
+                GetComponent<Animator>().SetTrigger("jump");
+            }
         }
     }
 
@@ -38,4 +42,5 @@ public class Swipe : MonoBehaviour
     {
         Player.transform.position = new Vector3(Player.transform.position.x - 8, Player.transform.position.y, Player.transform.position.z);
     }
+ 
 }

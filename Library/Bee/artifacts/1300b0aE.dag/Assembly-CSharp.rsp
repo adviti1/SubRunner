@@ -370,6 +370,7 @@
 "Assets/Sketchfab For Unity/Scripts/SketchfabLogger.cs"
 "Assets/Sketchfab For Unity/Scripts/SketchfabPlugin.cs"
 "Assets/Sketchfab For Unity/Scripts/SketchfabUI.cs"
+"Assets/trainmove.cs"
 -langversion:9.0
 
 /deterministic
